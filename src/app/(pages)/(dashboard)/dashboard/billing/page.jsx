@@ -7,6 +7,8 @@ import prismadb from '@/lib/prismadb';
 
 import { getUserSession } from '@/lib/auth';
 
+const APP_URL = process.env.VERCEL_URL ? process.env.VERCEL_URL : process.env.NEXTAUTH_URL;
+
 export default async function BillingPage() {
     async function createCheckoutSession(data) {
         'use server';
@@ -59,7 +61,7 @@ export default async function BillingPage() {
 
         const portalSession = await stripe.billingPortal.sessions.create({
             customer: existingCustomer.stripeCustomerId,
-            return_url: '/dashboard/billing',
+            return_url: `${APP_URL}/dashboard/billing`,
         });
 
         redirect(portalSession.url);
