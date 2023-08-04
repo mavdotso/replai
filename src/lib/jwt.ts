@@ -14,7 +14,6 @@ export async function verifyJwt(token: string) {
         const { payload, protectedHeader } = await jose.jwtVerify(token, secret);
 
         if (payload) {
-            console.log('Payload: ', payload, protectedHeader);
             return payload;
         } else {
             return false;
