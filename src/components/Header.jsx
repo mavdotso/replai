@@ -17,11 +17,14 @@ export default function Header() {
 
     const { data: session } = useSession();
 
+    console.log('Session data: ', session);
+
     useEffect(() => {
-        if (session !== undefined || session !== null) {
-            setLoggedIn(true);
-        } else {
+        if (session === undefined || session === null) {
+            // TODO: Change this
             setLoggedIn(false);
+        } else {
+            setLoggedIn(true);
         }
     }, [session]);
 

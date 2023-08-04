@@ -59,7 +59,7 @@ export default async function BillingPage() {
 
         const portalSession = await stripe.billingPortal.sessions.create({
             customer: existingCustomer.stripeCustomerId,
-            return_url: 'http://localhost:3000/dashboard/billing',
+            return_url: '/dashboard/billing',
         });
 
         redirect(portalSession.url);
