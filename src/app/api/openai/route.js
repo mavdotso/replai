@@ -2,6 +2,7 @@ import { Configuration, OpenAIApi } from 'openai-edge';
 import { OpenAIStream, StreamingTextResponse } from 'ai';
 import LanguageDetect from 'languagedetect';
 import { verifyJwt } from '@/lib/jwt';
+import { NextResponse } from 'next/server';
 
 const config = new Configuration({
     apiKey: process.env.OPENAI_API_KEY,
@@ -12,14 +13,10 @@ const languageDetect = new LanguageDetect();
 
 export const runtime = 'edge';
 
-export async function POST(req) {
+export async function POST(req, res) {
     const accessToken = await req.headers.get('accessToken');
-    console.log(req);
     const body = await req.json();
-    console.log(body);
-
-    const { context } = body;
-    console.log(context);
+    const { context } = body; // Message context
 
     if (!accessToken || !verifyJwt(accessToken)) {
         return new NextResponse('Unauthorised', { status: 401 });
@@ -56,6 +53,7 @@ export async function POST(req) {
         });
 
         const stream = OpenAIStream(response);
+
         return new StreamingTextResponse(stream);
     } catch (error) {
         return new NextResponse('Internal error', { status: 500 });
