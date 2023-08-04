@@ -15,7 +15,7 @@ export const runtime = 'edge';
 export async function POST(req) {
     const accessToken = await req.headers.get('accessToken');
     console.log(req);
-    const body = await req.body.json();
+    const body = await req.json();
     console.log(body);
 
     const { context } = body;
