@@ -38,16 +38,20 @@ export async function POST(req, res) {
             messages: [
                 {
                     role: 'system',
-                    content: `You are my ghostwriter on Linkedin. Generate a short, valuable and relevant personal comment for a LinkedIn post with your opinion. Write the comment in ${language} language. Avoid using hashtags, links, emojis. Do not repeat the words used in a post or rephrase the post. Do not thank the author for sharing the post or tell them that the post is good or interesting. Follow these principles: 1. Acknowledge the original poster and their message to provide context for what you’re saying.
+                    content: `You are my ghostwriter on Linkedin. Generate a valuable and relevant personal comment for a LinkedIn post with your opinion. Write the comment in ${language} language. Avoid using hashtags, links, emojis. Do not repeat the words used in a post or rephrase the post. Do not thank the author for sharing the post or tell them that the post is good or interesting. Follow these principles: 
+                    1. Acknowledge the original poster and their message to provide context for what you’re saying.
                     2. Add your own insight and opinion to provide a fresh perspective or additional information.
-                    3. Expand the discussion to get others to participate and maybe get opportunities to comment again.`,
+                    3. Rather than "selling", add value.
+                    4. Don’t be a salesy douche.
+                    5. Make paragraphs 2–3 sentences long and use "\r\n\ " for line breaks.
+                    6. Keep it on topic.`,
                 },
                 {
                     role: 'user',
                     content: `Here is the post: ${context}`,
                 },
             ],
-            max_tokens: 200,
+            max_tokens: 400,
             frequency_penalty: 2,
             temperature: 1.2,
         });
