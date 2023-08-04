@@ -10,12 +10,10 @@ interface Credentials {
 }
 
 const authorize = async (credentials: Credentials) => {
-    const APP_URL = process.env.VERCEL_URL ? process.env.VERCEL_URL : process.env.NEXTAUTH_URL;
-
     if (!credentials || !credentials.password) {
         return null;
     }
-    const res = await fetch(`${APP_URL}/api/login`, {
+    const res = await fetch(`${process.env.NEXTAUTH_URL}/api/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
