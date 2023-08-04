@@ -24,7 +24,7 @@ export async function POST(request: Request) {
         const { password, ...userWithoutPass } = user;
 
         // Checking JWT token
-        const accessToken = signJwtAccessToken(userWithoutPass);
+        const accessToken = await signJwtAccessToken(userWithoutPass);
         const result = {
             ...userWithoutPass,
             accessToken,
