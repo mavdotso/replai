@@ -14,7 +14,8 @@ export const runtime = 'edge';
 
 export async function POST(req) {
     const accessToken = await req.headers.get('accessToken');
-    const { context } = await req.json();
+    const body = await req.json();
+    const { context } = body;
 
     if (!accessToken || !verifyJwt(accessToken)) {
         return new NextResponse('Unauthorised', { status: 401 });
