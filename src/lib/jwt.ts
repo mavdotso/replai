@@ -12,10 +12,14 @@ export async function verifyJwt(token: string) {
     try {
         const secret = new TextEncoder().encode(process.env.JWT_SECRET_KEY);
         const { payload, protectedHeader } = await jose.jwtVerify(token, secret);
-        console.log('Payload: ', payload);
-        return payload;
+
+        if (payload) {
+            console.log('Payload: ', payload, protectedHeader);
+            return payload;
+        } else {
+            return false;
+        }
     } catch (error) {
-        console.log(error);
-        return null;
+        return false;
     }
 }

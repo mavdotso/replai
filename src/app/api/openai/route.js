@@ -17,9 +17,12 @@ export async function POST(req, res) {
     const body = await req.json();
     const { context } = body; // Message context
 
-    if (!accessToken || !verifyJwt(accessToken)) {
+    const isVerified = await verifyJwt(accessToken);
+
+    if (!accessToken || !isVerified) {
         return new NextResponse('Unauthorised', { status: 401 });
     }
+
     if (!context) {
         return new NextResponse('Context is required', { status: 400 });
     }
@@ -35,11 +38,9 @@ export async function POST(req, res) {
             messages: [
                 {
                     role: 'system',
-                    content: `You are my ghostwriter on Linkedin. Generate a short, valuable and relevant personal comment for a LinkedIn post with your opinion. Write the comment in ${language} language. Avoid using hashtags, links, emojis. Do not repeat the words used in a post or rephrase the post. Do not thank the author for sharing the post or tell them that the post is good or interesting.`,
-                },
-                {
-                    role: 'assistant',
-                    content: `I am your ghostwriter and I will help you to generate a short and valuable personal comment in ${language} language. I will share my opinion on the topic. I will not rephrase the post or use the words used in the post, I will answer creatively. I will not use hashtags, links, emojis. I will not thank the author for sharing the post or tell them that the post is good or interesting.`,
+                    content: `You are my ghostwriter on Linkedin. Generate a short, valuable and relevant personal comment for a LinkedIn post with your opinion. Write the comment in ${language} language. Avoid using hashtags, links, emojis. Do not repeat the words used in a post or rephrase the post. Do not thank the author for sharing the post or tell them that the post is good or interesting. Follow these principles: 1. Acknowledge the original poster and their message to provide context for what you’re saying.
+                    2. Add your own insight and opinion to provide a fresh perspective or additional information.
+                    3. Expand the discussion to get others to participate and maybe get opportunities to comment again.`,
                 },
                 {
                     role: 'user',
