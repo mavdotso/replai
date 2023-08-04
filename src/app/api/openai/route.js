@@ -2,6 +2,7 @@ import { Configuration, OpenAIApi } from 'openai-edge';
 import { OpenAIStream, StreamingTextResponse } from 'ai';
 import LanguageDetect from 'languagedetect';
 import { verifyJwt } from '@/lib/jwt';
+import NextCors from 'nextjs-cors';
 
 const config = new Configuration({
     apiKey: process.env.OPENAI_API_KEY,
@@ -13,6 +14,13 @@ const languageDetect = new LanguageDetect();
 export const runtime = 'edge';
 
 export async function POST(req) {
+    await NextCors(req, res, {
+        // Options
+        methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
+        origin: '*',
+        optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+    });
+
     const accessToken = await req.headers.get('accessToken');
     const body = await req.json();
     const { context } = body;
