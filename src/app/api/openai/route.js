@@ -1,5 +1,4 @@
 import { Configuration, OpenAIApi } from 'openai-edge';
-import { OpenAIStream, StreamingTextResponse } from 'ai';
 import LanguageDetect from 'languagedetect';
 import { verifyJwt } from '@/lib/jwt';
 import { NextResponse } from 'next/server';
@@ -52,12 +51,7 @@ export async function POST(req, res) {
             temperature: 1.2,
         });
 
-        // const stream = OpenAIStream(response);
-        // return new StreamingTextResponse(stream);
-
         const res = response.body;
-        // const data = res.choices[0].message.content;
-        console.log(res);
 
         return new NextResponse(res, { status: 200 });
     } catch (error) {
