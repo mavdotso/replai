@@ -21,6 +21,8 @@ export async function GET() {
 
     // For each found expired user update status and plan
     for (let i = 0; i < expiredUsers.length; i++) {
+        const subscription = expiredUsers[i].Subscription;
+
         await prismadb.user.update({
             where: {
                 id: expiredUsers[i].id,
@@ -30,7 +32,7 @@ export async function GET() {
                 Subscription: {
                     update: {
                         where: {
-                            status: expiredUsers[i].Subscription.status,
+                            status: subscription.status,
                         },
                         data: {
                             status: 'expired',
