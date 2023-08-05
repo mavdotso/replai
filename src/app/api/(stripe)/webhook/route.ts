@@ -35,13 +35,13 @@ export async function POST(req: NextRequest) {
                             create: {
                                 name: planEnumValue,
                                 description: subscription.description,
-                                price: subscription.plan.amount / 100,
+                                price: subscription['plan'].amount / 100,
                                 apiLimit: planApiLimit,
                             },
                             update: {
                                 name: planEnumValue,
                                 description: subscription.description,
-                                price: subscription.plan.amount / 100,
+                                price: subscription['plan'].amount / 100,
                                 apiLimit: planApiLimit,
                             },
                         },
