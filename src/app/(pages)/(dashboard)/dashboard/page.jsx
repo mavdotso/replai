@@ -2,7 +2,6 @@
 import { Separator } from '@/components/ui/separator';
 import { AccountForm } from '@/components/AccountForm';
 import { signOut, useSession } from 'next-auth/react';
-import { useEffect } from 'react';
 
 export default function DashboardPage() {
     function handleSignout(e) {

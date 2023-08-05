@@ -2,12 +2,11 @@ import { NextRequest, NextResponse } from 'next/server';
 import { stripe } from '@/lib/stripe';
 import Stripe from 'stripe';
 import prismadb from '@/lib/prismadb';
+import { mapStringToPlanEnum, setPlanApiLimit } from '@/lib/utils';
 
 const ENDPOINT_SECRET = process.env.STRIPE_WEBHOOK_SECRET || '';
 
 export async function POST(req: NextRequest) {
-    console.log('Webhook activated');
-
     let event: Stripe.Event | undefined;
 
     try {
@@ -23,10 +22,30 @@ export async function POST(req: NextRequest) {
     switch (event.type) {
         case 'customer.subscription.updated':
             const subscription = event.data.object as Stripe.Subscription;
-            console.log('Metadata: ', subscription.metadata);
+
+            const planStringFromMetadata = subscription.metadata.plan;
+            const planEnumValue = mapStringToPlanEnum(planStringFromMetadata);
+            const planApiLimit = setPlanApiLimit(planStringFromMetadata);
+
             const newSubscription = await prismadb.user.update({
                 where: { id: subscription.metadata.userId },
                 data: {
+                    Plan: {
+                        upsert: {
+                            create: {
+                                name: planEnumValue,
+                                description: subscription.description,
+                                price: subscription.plan.amount / 100,
+                                apiLimit: planApiLimit,
+                            },
+                            update: {
+                                name: planEnumValue,
+                                description: subscription.description,
+                                price: subscription.plan.amount / 100,
+                                apiLimit: planApiLimit,
+                            },
+                        },
+                    },
                     Subscription: {
                         upsert: {
                             create: {
@@ -45,11 +64,12 @@ export async function POST(req: NextRequest) {
                     },
                 },
                 include: {
+                    Plan: true,
                     Subscription: true,
                 },
             });
 
-        // console.log('New subscription: ', newSubscription);
+            console.log('New subscription: ', newSubscription);
     }
 
     return new NextResponse('Webhook received', { status: 200 });

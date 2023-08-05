@@ -10,6 +10,7 @@ async function PricingPage() {
             // Check if the plan is active and return it
             if (price.active) {
                 // TODO: Check monthly / yearly prices and return to the diff cards
+
                 return {
                     id: price.id,
                     name: product.name,
@@ -18,6 +19,7 @@ async function PricingPage() {
                     interval: price.recurring.interval,
                     currency: price.currency,
                     metadata: product.metadata,
+                    lookupKey: price.lookup_key,
                 };
             }
         })

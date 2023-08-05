@@ -1,19 +1,6 @@
-export const MAX_FREE_TOKENS = 5;
-
-// export const STRIPE_SUBSCRIPTIONS = [
-//     {
-//         planType: "Basic",
-//         price: "39",
-//         priceId: "price_1NaM5HBJE3vt02onZS4fuI9m"
-//     },
-//     {
-//         planType: "Pro",
-//         price: "59",
-//         priceId: "price_1NaM4nBJE3vt02onX44tFa82"
-//     },
-//     {
-//         planType: "Business",
-//         price: "129",
-//         priceId: "price_1NaM4UBJE3vt02onEn3x4Enm"
-//     },
-// ]
+// Monthly API limits
+export const TRIAL_MONTHLY_API_LIMIT = 20;
+export const BASIC_MONTHLY_API_LIMIT = 300;
+export const PRO_MONTHLY_API_LIMIT = 1000;
+export const BUSINESS_MONTHLY_API_LIMIT = 0;
+export const LIFETIME_MONTHLY_API_LIMIT = 0;
