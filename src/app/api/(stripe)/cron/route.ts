@@ -6,32 +6,35 @@ export async function GET() {
     // Find all users with paid subscriptions
     const expiredUsers = await prismadb.user.findMany({
         where: {
-            NOT: [
-                { Plan: { name: Plans.TRIAL || Plans.LIFETIME } },
-                {
-                    Subscription: {
-                        currentPeriodEnd: {
-                            lte: new Date(),
-                        },
-                    },
+            Subscription: {
+                currentPeriodEnd: {
+                    lte: new Date(),
                 },
-            ],
+            },
         },
         include: {
             Subscription: true,
         },
     });
 
+    console.log(expiredUsers);
+
     // For each found expired user update status and plan
     for (let i = 0; i < expiredUsers.length; i++) {
         const subscription = expiredUsers[i].Subscription;
-
+        2;
         await prismadb.user.update({
             where: {
                 id: expiredUsers[i].id,
             },
             data: {
-                Plan: { update: { name: Plans.TRIAL } },
+                Plan: {
+                    update: {
+                        data: {
+                            name: Plans.TRIAL,
+                        },
+                    },
+                },
                 Subscription: {
                     update: {
                         where: {
