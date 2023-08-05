@@ -43,7 +43,7 @@ export async function POST(req, res) {
                     2. Add your own insight and opinion to provide a fresh perspective or additional information.
                     3. Rather than "selling", add value.
                     4. Don’t be a salesy douche.
-                    5. Make paragraphs 2–3 sentences long and use "\r\n\ " for line breaks.
+                    5. Make paragraphs 2–3 sentences long and use double breaks (\r\n\) for line breaks.
                     6. Keep it on topic.`,
                 },
                 {

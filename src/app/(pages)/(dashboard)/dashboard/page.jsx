@@ -2,16 +2,14 @@
 import { Separator } from '@/components/ui/separator';
 import { AccountForm } from '@/components/AccountForm';
 import { signOut, useSession } from 'next-auth/react';
+import { useEffect } from 'react';
 
 export default function DashboardPage() {
-    const { data: session } = useSession();
-
     function handleSignout(e) {
         e.preventDefault;
         signOut();
     }
-
-    console.log(session);
+    const { data: session, status } = useSession({ required: true });
 
     return (
         <div className="space-y-6">

@@ -18,24 +18,38 @@ export async function POST(req: NextRequest) {
         return new NextResponse('Invalid payload', { status: 400 });
     }
 
-    // console.log("Event", event);
+    // console.log('Event', event);
 
     switch (event.type) {
         case 'customer.subscription.updated':
             const subscription = event.data.object as Stripe.Subscription;
-            const customer = await prismadb.user.findUnique({
+            console.log('Metadata: ', subscription.metadata);
+            const newSubscription = await prismadb.user.update({
                 where: { id: subscription.metadata.userId },
-                include: { Subscription: true }, // Include the related Subscription data
-            });
-
-            await prismadb.subscription.update({
-                where: { id: customer.Subscription.id },
                 data: {
-                    status: subscription.status as string,
-                    currentPeriodEnd: new Date(subscription.current_period_end * 1000) as Date,
-                    currentPeriodStart: new Date(subscription.current_period_start * 1000) as Date,
+                    Subscription: {
+                        upsert: {
+                            create: {
+                                id: subscription.id as string,
+                                status: subscription.status as string,
+                                currentPeriodEnd: new Date(subscription.current_period_end * 1000) as Date,
+                                currentPeriodStart: new Date(subscription.current_period_start * 1000) as Date,
+                            },
+                            update: {
+                                id: subscription.id as string,
+                                status: subscription.status as string,
+                                currentPeriodEnd: new Date(subscription.current_period_end * 1000) as Date,
+                                currentPeriodStart: new Date(subscription.current_period_start * 1000) as Date,
+                            },
+                        },
+                    },
+                },
+                include: {
+                    Subscription: true,
                 },
             });
+
+        // console.log('New subscription: ', newSubscription);
     }
 
     return new NextResponse('Webhook received', { status: 200 });

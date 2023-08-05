@@ -15,18 +15,16 @@ export default function Header() {
     const [top, setTop] = useState(true);
     const [isLoggedIn, setLoggedIn] = useState(false);
 
-    const { data: session } = useSession();
-
-    console.log('Session data: ', session);
+    const { data: session, status } = useSession();
 
     useEffect(() => {
-        if (session === undefined || session === null) {
+        if (!session) {
             // TODO: Change this
             setLoggedIn(false);
         } else {
             setLoggedIn(true);
         }
-    }, [session]);
+    }, [session, status]);
 
     // detect whether user has scrolled the page down by 10px
     const scrollHandler = () => {

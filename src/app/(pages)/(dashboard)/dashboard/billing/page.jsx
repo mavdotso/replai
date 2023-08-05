@@ -15,8 +15,6 @@ export default async function BillingPage() {
             where: { email: user.email },
         });
 
-        console.log(existingUser);
-
         const lookup = await data.get('lookup_key');
 
         const prices = await stripe.prices.list({
@@ -35,11 +33,12 @@ export default async function BillingPage() {
             subscription_data: {
                 metadata: {
                     userId: existingUser.id,
+                    plan: lookup,
                 },
             },
             mode: 'subscription',
-            success_url: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard/billing/success?session_id={CHECKOUT_SESSION_ID}`,
-            cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard/billing?canceled=true`,
+            success_url: `${process.env.NEXTAUTH_URL}/dashboard/billing/success?session_id={CHECKOUT_SESSION_ID}`,
+            cancel_url: `${process.env.NEXTAUTH_URL}/dashboard/billing?canceled=true`,
         });
 
         redirect(session.url);
