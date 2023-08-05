@@ -1,11 +1,12 @@
 import prismadb from '@/lib/prismadb';
 import { NextResponse } from 'next/server';
+import { Plans } from '@prisma/client';
 
 export async function GET() {
     // Find all users with paid subscriptions
     const expiredUsers = await prismadb.user.findMany({
         where: {
-            NOT: [{ plan: 'FREE' || 'LIFETIME' }],
+            NOT: [{ Plan: { name: Plans.TRIAL || Plans.LIFETIME } }],
         },
         include: {
             Subscription: {
@@ -25,7 +26,7 @@ export async function GET() {
                 id: expiredUsers[i].id,
             },
             data: {
-                plan: 'FREE',
+                Plan: { update: { name: Plans.TRIAL } },
                 Subscription: {
                     update: {
                         where: {

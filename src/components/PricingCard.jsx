@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { getUserSession } from '@/lib/auth';
 import { stripe } from '@/lib/stripe';
 import { redirect } from 'next/navigation';
+import prismadb from '@/lib/prismadb';
 
 export function PricingCard(props) {
     const metadata = props.pricingKey;
