@@ -31,7 +31,7 @@ async function PricingPage() {
                 .slice(0)
                 .reverse()
                 .map((plan) => (
-                    <PricingCard key={plan.id} pricingName={plan.name} pricingDesc={plan.description} pricingKey={plan.metadata} pricingButton={'Upgrade'} />
+                    <PricingCard key={plan.id} pricingName={plan.name} pricingDesc={plan.description} pricingKey={plan.metadata} lookupKey={plan.lookupKey} pricingButton={'Upgrade'} />
                 ))}
         </div>
     );

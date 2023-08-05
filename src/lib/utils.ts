@@ -29,7 +29,7 @@ export function mapStringToPlanEnum(planString: string): Plans | null {
     }
 }
 
-export function setPlanApiLimit(plan) {
+export function setPlanApiLimit(plan: string) {
     switch (plan) {
         case 'MBASIC':
             return BASIC_MONTHLY_API_LIMIT;

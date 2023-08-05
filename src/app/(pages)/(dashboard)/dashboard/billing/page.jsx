@@ -7,43 +7,6 @@ import prismadb from '@/lib/prismadb';
 import { getUserSession } from '@/lib/auth';
 
 export default async function BillingPage() {
-    async function createCheckoutSession(data) {
-        'use server';
-        const { user } = await getUserSession();
-
-        const existingUser = await prismadb.user.findUnique({
-            where: { email: user.email },
-        });
-
-        const lookup = await data.get('lookup_key');
-
-        const prices = await stripe.prices.list({
-            lookup_keys: [lookup],
-            expand: ['data.product'],
-        });
-
-        const session = await stripe.checkout.sessions.create({
-            billing_address_collection: 'auto',
-            line_items: [
-                {
-                    price: prices.data[0].id,
-                    quantity: 1,
-                },
-            ],
-            subscription_data: {
-                metadata: {
-                    userId: existingUser.id,
-                    plan: lookup,
-                },
-            },
-            mode: 'subscription',
-            success_url: `${process.env.NEXTAUTH_URL}/dashboard/billing/success?session_id={CHECKOUT_SESSION_ID}`,
-            cancel_url: `${process.env.NEXTAUTH_URL}/dashboard/billing?canceled=true`,
-        });
-
-        redirect(session.url);
-    }
-
     async function createPortalSession() {
         'use server';
         const { user } = await getUserSession();
@@ -79,10 +42,6 @@ export default async function BillingPage() {
                 </div>
                 <div>
                     <h3>Current plan:</h3>
-                    <form action={createCheckoutSession}>
-                        <input type="hidden" name="lookup_key" value="pro-monthly" />
-                        <Button type="submit">Upgrade to pro mo</Button>
-                    </form>
                 </div>
             </div>
 
