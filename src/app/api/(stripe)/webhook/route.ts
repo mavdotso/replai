@@ -7,11 +7,15 @@ import { mapStringToPlanEnum, setPlanApiLimit } from '@/lib/utils';
 const ENDPOINT_SECRET = process.env.STRIPE_WEBHOOK_SECRET || '';
 
 export async function POST(req: NextRequest) {
+    const rawBody = await req.text();
     let event: Stripe.Event | undefined;
+
+    console.log(rawBody);
 
     try {
         const signature = req.headers.get('stripe-signature') || '';
-        event = stripe.webhooks.constructEvent(await req.text(), signature, ENDPOINT_SECRET);
+
+        event = stripe.webhooks.constructEvent(rawBody, signature, ENDPOINT_SECRET);
     } catch (error) {
         console.log('Webhook signature verification failed,', error.message);
         return new NextResponse('Invalid payload', { status: 400 });
