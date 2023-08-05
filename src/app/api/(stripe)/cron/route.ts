@@ -17,8 +17,6 @@ export async function GET() {
         },
     });
 
-    console.log(expiredUsers);
-
     // For each found expired user update status and plan
     for (let i = 0; i < expiredUsers.length; i++) {
         const subscription = expiredUsers[i].Subscription;
