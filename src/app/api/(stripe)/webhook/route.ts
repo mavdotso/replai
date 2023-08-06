@@ -2,7 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { stripe } from '@/lib/stripe';
 import Stripe from 'stripe';
 import prismadb from '@/lib/prismadb';
-import { mapStringToPlanEnum, setPlanApiLimit } from '@/lib/utils';
+import { Plans } from '@prisma/client';
+
+import { BASIC_MONTHLY_API_LIMIT, BUSINESS_MONTHLY_API_LIMIT, LIFETIME_MONTHLY_API_LIMIT, PRO_MONTHLY_API_LIMIT, TRIAL_MONTHLY_API_LIMIT } from '@/lib/constants';
 
 const ENDPOINT_SECRET = process.env.STRIPE_WEBHOOK_SECRET || '';
 
@@ -77,4 +79,46 @@ export async function POST(req: NextRequest) {
     }
 
     return new NextResponse('Webhook received', { status: 200 });
+}
+
+export function mapStringToPlanEnum(planString: string): Plans | null {
+    switch (planString) {
+        case 'MBASIC':
+            return Plans.MBASIC;
+        case 'MPRO':
+            return Plans.MPRO;
+        case 'MBUSINESS':
+            return Plans.MBUSINESS;
+        case 'YBASIC':
+            return Plans.YBASIC;
+        case 'YPRO':
+            return Plans.YPRO;
+        case 'YBUSINESS':
+            return Plans.YBUSINESS;
+        case 'LIFETIME':
+            return Plans.LIFETIME;
+        default:
+            return Plans.TRIAL;
+    }
+}
+
+export function setPlanApiLimit(plan: string) {
+    switch (plan) {
+        case 'MBASIC':
+            return BASIC_MONTHLY_API_LIMIT;
+        case 'MPRO':
+            return PRO_MONTHLY_API_LIMIT;
+        case 'MBUSINESS':
+            return BUSINESS_MONTHLY_API_LIMIT;
+        case 'YBASIC':
+            return BASIC_MONTHLY_API_LIMIT;
+        case 'YPRO':
+            return PRO_MONTHLY_API_LIMIT;
+        case 'YBUSINESS':
+            return BUSINESS_MONTHLY_API_LIMIT;
+        case 'LIFETIME':
+            return LIFETIME_MONTHLY_API_LIMIT;
+        default:
+            return TRIAL_MONTHLY_API_LIMIT;
+    }
 }
