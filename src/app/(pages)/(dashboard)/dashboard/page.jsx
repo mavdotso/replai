@@ -8,8 +8,6 @@ export default function DashboardPage() {
         e.preventDefault;
         signOut();
     }
-    const { data: session, status } = useSession({ required: true });
-
     return (
         <div className="space-y-6">
             <div>

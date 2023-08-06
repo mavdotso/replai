@@ -1,6 +1,6 @@
 export const metadata = {
-    title: 'Home - Simple',
-    description: 'Page description',
+    title: '@replai',
+    description: '@replai - Your smart social media assistant',
 };
 
 import Hero from '@/components/(landing)/Hero';
