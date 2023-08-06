@@ -3,7 +3,6 @@ import { stripe } from '@/lib/stripe';
 import Stripe from 'stripe';
 import prismadb from '@/lib/prismadb';
 import { Plans } from '@prisma/client';
-
 import { BASIC_MONTHLY_API_LIMIT, BUSINESS_MONTHLY_API_LIMIT, LIFETIME_MONTHLY_API_LIMIT, PRO_MONTHLY_API_LIMIT, TRIAL_MONTHLY_API_LIMIT } from '@/lib/constants';
 
 const ENDPOINT_SECRET = process.env.STRIPE_WEBHOOK_SECRET || '';
@@ -81,7 +80,7 @@ export async function POST(req: NextRequest) {
     return new NextResponse('Webhook received', { status: 200 });
 }
 
-export function mapStringToPlanEnum(planString: string): Plans | null {
+function mapStringToPlanEnum(planString: string): Plans | null {
     switch (planString) {
         case 'MBASIC':
             return Plans.MBASIC;
@@ -102,7 +101,7 @@ export function mapStringToPlanEnum(planString: string): Plans | null {
     }
 }
 
-export function setPlanApiLimit(plan: string) {
+function setPlanApiLimit(plan: string) {
     switch (plan) {
         case 'MBASIC':
             return BASIC_MONTHLY_API_LIMIT;
