@@ -51,7 +51,7 @@ export async function POST(req, res) {
                     content: `Here is the post: ${context}`,
                 },
             ],
-            max_tokens: 400,
+            max_tokens: 300,
             frequency_penalty: 2,
             temperature: 1.2,
         });
