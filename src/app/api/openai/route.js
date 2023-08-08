@@ -10,9 +10,7 @@ const config = new Configuration({
 const openai = new OpenAIApi(config);
 const languageDetect = new LanguageDetect();
 
-export const runtime = 'edge';
-
-export async function POST(req, res) {
+export async function POST(req) {
     const accessToken = await req.headers.get('accessToken');
     const body = await req.json();
     const { context } = body; // Message context

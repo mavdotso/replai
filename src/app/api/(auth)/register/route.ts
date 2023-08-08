@@ -1,6 +1,5 @@
 import prismadb from '@/lib/prismadb';
 import * as bcrypt from 'bcryptjs';
-import { stripe } from '@/lib/stripe';
 
 interface RequestBody {
     email: string;
