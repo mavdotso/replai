@@ -1,6 +1,7 @@
 import prismadb from '@/lib/prismadb';
 import { NextResponse } from 'next/server';
 import { Plans } from '@prisma/client';
+import { TRIAL_MONTHLY_API_LIMIT } from '@/lib/constants';
 
 export async function GET() {
     // Find all users with paid subscriptions
@@ -30,6 +31,7 @@ export async function GET() {
                     update: {
                         data: {
                             name: Plans.TRIAL,
+                            apiLimit: TRIAL_MONTHLY_API_LIMIT,
                         },
                     },
                 },
