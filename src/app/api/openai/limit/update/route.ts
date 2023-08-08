@@ -9,7 +9,6 @@ interface RequestBody {
 export async function POST(req: Request) {
     const accessToken = req.headers.get('accessToken');
     const body = await req.json();
-    const { email } = body;
 
     const isVerified = await verifyJwt(accessToken);
 
@@ -18,7 +17,7 @@ export async function POST(req: Request) {
     }
 
     const updatedLimit = await prismadb.user.update({
-        where: { email: email },
+        where: { email: body.email },
         data: {
             Plan: {
                 update: {

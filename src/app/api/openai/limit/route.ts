@@ -7,7 +7,6 @@ export async function POST(req: Request) {
     try {
         const accessToken = req.headers.get('accessToken');
         const body = await req.json();
-        const { email } = body;
 
         const isVerified = await verifyJwt(accessToken);
 
@@ -16,7 +15,7 @@ export async function POST(req: Request) {
         }
 
         const userApiLimit = await prismadb.user.findUnique({
-            where: { email: email },
+            where: { email: body.email },
             select: {
                 Plan: {
                     select: {
