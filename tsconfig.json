@@ -34,7 +34,7 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx"
-, "src/app/api/(stripe)/webhook/route-old.js", "src/components/UserNav.jsx"  ],
+, "src/components/UserNav.jsx"  ],
   "exclude": [
     "node_modules"
   ]

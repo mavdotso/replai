@@ -10,7 +10,7 @@ export default function Hero() {
                     {/* Section header */}
                     <div className="text-center pb-12 md:pb-16">
                         <h1 className="sm:text-8xl text-6xl font-bold leading-tighter tracking-tighter mb-4" data-aos="zoom-y-out">
-                            Boost Your LinkedIn Engagement with <span className="bg-clip-text text-transparent bg-gradient-to-r from-zinc-500 to-zinc-950">Smart AI Assistant</span>
+                            Boost Your LinkedIn Engagement with <span className="bg-clip-text text-transparent bg-gradient-to-b from-zinc-500 to-zinc-950">Smart AI Assistant</span>
                         </h1>
                         <div className="max-w-3xl mx-auto">
                             <p className="sm:text-2xl text-xl text-gray-600 mb-8" data-aos="zoom-y-out" data-aos-delay="150">

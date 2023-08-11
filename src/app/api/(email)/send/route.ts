@@ -1,27 +1,33 @@
-import { Verify } from '@/components/emails/VerifyTemplate';
+import VerifyEmail from '@/components/emails/VerifyEmail';
 import { NextResponse } from 'next/server';
-import { resend, serviceEmail } from '@/lib/resend';
+import { Resend } from 'resend';
+import * as bcrypt from 'bcryptjs';
+import prismadb from '@/lib/prismadb';
 
-export const runtime = 'edge';
-export const dynamic = 'force-dynamic';
+const resend = new Resend(process.env.RESEND_API_KEY);
 
-export async function POST() {
-    const res = await fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
-        },
-        body: JSON.stringify({
-            from: 'onboarding@resend.dev',
-            to: 'delivered@resend.dev',
-            subject: 'hello world',
-            html: '<strong>it works!</strong>',
-        }),
-    });
+export async function POST(req: Request) {
+    const { email } = await req.json();
 
-    if (res.ok) {
-        const data = await res.json();
+    const verificationHash = await bcrypt.hash(email.toString(), 10);
+
+    try {
+        await prismadb.user.update({
+            where: {
+                email: email,
+            },
+            data: {},
+        });
+
+        const data = await resend.emails.send({
+            from: `Mav <${process.env.RESEND_SERVICE_EMAIL}>`,
+            to: [email],
+            subject: 'Verify your email address',
+            react: VerifyEmail({ email, verificationHash }),
+        });
+
         return NextResponse.json(data);
+    } catch (error) {
+        return NextResponse.json({ error });
     }
 }
