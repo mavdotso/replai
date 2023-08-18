@@ -1,7 +1,7 @@
 import './globals.css';
 import { Inter } from 'next/font/google';
 
-import Provider from '@/components/Provider';
+import NextAuthProvider from '@/components/NextAuthProvider';
 import { ThemeProvider } from '@/components/ThemeProvider';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -13,7 +13,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
     return (
-        <Provider>
+        <NextAuthProvider>
             <html lang="en">
                 <body className={inter.className}>
                     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
@@ -21,6 +21,6 @@ export default function RootLayout({ children }) {
                     </ThemeProvider>
                 </body>
             </html>
-        </Provider>
+        </NextAuthProvider>
     );
 }

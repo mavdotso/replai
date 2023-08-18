@@ -9,6 +9,6 @@ interface Props {
     session: Session;
 }
 
-export default function Provider({ children, session }: Props) {
+export default function NextAuthProvider({ children, session }: Props) {
     return <SessionProvider session={session}>{children}</SessionProvider>;
 }

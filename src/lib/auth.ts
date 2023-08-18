@@ -4,9 +4,9 @@ import { authOptions } from '@/app/api/(auth)/auth/[...nextauth]/route';
 export type AuthUser = Session & {
     id?: string;
     email?: string;
-    emailVerified?: Date;
+    emailVerified?: boolean;
     image?: string;
-    accessToken?: string;
+    openaiApi?: string;
     Plan?: object;
     stripeCustomerId?: string;
     Subscription?: object;
