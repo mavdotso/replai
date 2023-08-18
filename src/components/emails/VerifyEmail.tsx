@@ -2,8 +2,8 @@ import { Body, Button, Container, Head, Heading, Html, Img, Link, Preview, Secti
 import * as React from 'react';
 
 interface VercelInviteUserEmailProps {
-    email?: string;
-    verificationHash?: string;
+    email: string;
+    verificationHash: string;
 }
 
 const baseUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : '';

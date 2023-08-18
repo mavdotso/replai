@@ -13,20 +13,25 @@ const authorize = async (credentials: Credentials) => {
     if (!credentials || !credentials.password) {
         return null;
     }
-    const res = await fetch(`${process.env.NEXTAUTH_URL}/api/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            email: credentials.email,
-            password: credentials.password,
-        }),
-    });
-    const user = await res.json();
+    try {
+        const res = await fetch(`${process.env.NEXTAUTH_URL}/api/login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                email: credentials.email,
+                password: credentials.password,
+            }),
+        });
+        const user = await res.json();
 
-    if (res.ok && user) {
-        return user;
+        if (res.ok && user) {
+            return user;
+        }
+        return null;
+    } catch (error) {
+        console.error('Error:', error);
+        return null;
     }
-    return null;
 };
 
 export const authOptions: NextAuthOptions = {

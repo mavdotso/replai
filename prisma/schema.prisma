@@ -20,13 +20,13 @@ enum Plans {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  email         String    @unique
+  id            String   @id @default(cuid())
+  email         String   @unique
   password      String
-  emailVerified DateTime?
+  emailVerified Boolean  @default(false)
   image         String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 
   //Only for Lifetime
   openaiApi String?
@@ -35,8 +35,21 @@ model User {
   Plan Plan?
 
   // Stripe-specific fields
-  stripeCustomerId String?       @unique
+  stripeCustomerId String?         @unique
   Subscription     Subscription?
+  activateTokens   ActivateToken[]
+}
+
+model ActivateToken {
+  id          Int       @id @default(autoincrement())
+  token       String    @unique
+  activatedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id])
 }
 
 model Plan {
