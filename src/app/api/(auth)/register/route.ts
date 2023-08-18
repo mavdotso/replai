@@ -1,3 +1,4 @@
+import { BASE_URL } from '@/lib/constants';
 import prismadb from '@/lib/prismadb';
 import * as bcrypt from 'bcryptjs';
 import slugify from 'slugify';
@@ -6,9 +7,6 @@ interface RequestBody {
     email: string;
     password: string;
 }
-
-// FIXME: Remember to delete localhost in prod
-const baseUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000';
 
 export async function POST(request: Request) {
     try {
@@ -32,7 +30,7 @@ export async function POST(request: Request) {
         });
 
         // Send a verification email
-        await fetch(`${baseUrl}/api/verify`, {
+        await fetch(`${BASE_URL}/api/verify`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

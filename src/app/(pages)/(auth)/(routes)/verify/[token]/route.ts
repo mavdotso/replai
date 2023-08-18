@@ -1,8 +1,6 @@
+import { BASE_URL } from '@/lib/constants';
 import prismadb from '@/lib/prismadb';
-import { redirect } from 'next/navigation';
-import { NextRequest } from 'next/server';
-
-// TODO: Check if this works
+import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(req: NextRequest, { params }: { params: { token: string } }) {
     try {
@@ -18,7 +16,7 @@ export async function GET(req: NextRequest, { params }: { params: { token: strin
                             },
                             {
                                 createdAt: {
-                                    gt: new Date(Date.now() - 24 * 60 * 60 * 1000), // 24h ago
+                                    gt: new Date(Date.now() - 24 * 60 * 60 * 1000), // 24h
                                 },
                             },
                             {
@@ -54,7 +52,8 @@ export async function GET(req: NextRequest, { params }: { params: { token: strin
 
         // TODO: Redirect with a success message
         // TODO: Redirect with an error message
-        redirect('/dashboard');
+
+        return NextResponse.redirect(`${BASE_URL}/dashboard`);
     } catch (error) {
         console.error('Error:', error);
         return new Response(JSON.stringify({ error: 'Internal Server Error' }), { status: 500 });
