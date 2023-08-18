@@ -31,7 +31,6 @@ export function LoginForm({ className, ...props }) {
             setIsLoading(false);
             setError(true);
         } else {
-            setIsLoading(false);
             router.push('/dashboard');
         }
     }

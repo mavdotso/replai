@@ -4,9 +4,9 @@ import { NextRequest } from 'next/server';
 
 // TODO: Check if this works
 
-export async function GET(req: NextRequest, { params }: { params: { verificationHash: string } }) {
+export async function GET(req: NextRequest, { params }: { params: { token: string } }) {
     try {
-        const { verificationHash } = params;
+        const { token } = params;
 
         const user = await prismadb.user.findFirst({
             where: {
@@ -22,7 +22,7 @@ export async function GET(req: NextRequest, { params }: { params: { verification
                                 },
                             },
                             {
-                                token: verificationHash,
+                                token,
                             },
                         ],
                     },
@@ -45,7 +45,7 @@ export async function GET(req: NextRequest, { params }: { params: { verification
 
         await prismadb.activateToken.update({
             where: {
-                token: verificationHash,
+                token,
             },
             data: {
                 activatedAt: new Date(),

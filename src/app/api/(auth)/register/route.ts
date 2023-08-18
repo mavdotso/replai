@@ -1,51 +1,46 @@
-import VerifyEmail from '@/components/emails/VerifyEmail';
 import prismadb from '@/lib/prismadb';
 import * as bcrypt from 'bcryptjs';
-import { Resend } from 'resend';
+import slugify from 'slugify';
+
 interface RequestBody {
     email: string;
     password: string;
 }
-const resend = new Resend(process.env.RESEND_API_KEY);
+
+// FIXME: Remember to delete localhost in prod
+const baseUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000';
 
 export async function POST(request: Request) {
     try {
         const body: RequestBody = await request.json();
-
         const hashedPassword = bcrypt.hashSync(body.password, 10);
 
-        const newUser = await prismadb.user.create({
+        // Create a new user
+        const user = await prismadb.user.create({
             data: {
                 email: body.email,
                 password: hashedPassword,
             },
         });
 
-        if (newUser) {
-            const verificationHash = await prismadb.activateToken.create({
-                data: {
-                    token: `${bcrypt.hashSync(newUser.toString(), 10)}`.replace(/-/g, ''),
-                    userId: newUser.id,
-                },
-            });
+        // Generate and slugify a verification token
+        const token = await prismadb.activateToken.create({
+            data: {
+                token: slugify(`${bcrypt.hashSync(user.email.toString(), 10)}`, { remove: /[*+~.()'"!:@$]/g, strict: true }),
+                userId: user.id,
+            },
+        });
 
-            try {
-                // TODO: MAKE A FETCH REQUEST TO api/send INSTEAD
-                await resend.emails.send({
-                    from: `Mav <${process.env.RESEND_SERVICE_EMAIL}>`,
-                    to: [newUser.email],
-                    subject: 'Verify your email address',
-                    react: VerifyEmail({ email: newUser.email, verificationHash: verificationHash.token }),
-                });
-            } catch (error) {
-                console.error('Error:', error);
-                return new Response(JSON.stringify({ error: 'Internal Server Error' }), { status: 500 });
-            }
+        // Send a verification email
+        await fetch(`${baseUrl}/api/verify`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email: user.email, token: token.token }),
+        });
 
-            return new Response(JSON.stringify(newUser));
-        } else {
-            return new Response(JSON.stringify(null));
-        }
+        return new Response(JSON.stringify(user));
     } catch (error) {
         console.error('Error:', error);
         return new Response(JSON.stringify({ error: 'Internal Server Error' }), { status: 500 });

@@ -3,12 +3,13 @@ import * as React from 'react';
 
 interface VercelInviteUserEmailProps {
     email: string;
-    verificationHash: string;
+    token: string;
 }
 
-const baseUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : '';
+// FIXME: Remember to delete localhost in prod
+const baseUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000';
 
-export default function VerifyEmail({ email, verificationHash }: VercelInviteUserEmailProps) {
+export default function VerifyEmail({ email, token }: VercelInviteUserEmailProps) {
     const previewText = `Verify your email on @replai`;
 
     return (
@@ -25,14 +26,14 @@ export default function VerifyEmail({ email, verificationHash }: VercelInviteUse
                         <Text className="text-black text-[14px] leading-[24px]">Hello {email},</Text>
                         <Text className="text-black text-[14px] leading-[24px]">Verify your email address to get access to @replai features and updates!</Text>
                         <Section className="text-center mt-[32px] mb-[32px]">
-                            <Button pX={20} pY={12} className="bg-[#000000] rounded text-white text-[12px] font-semibold no-underline text-center" href={verificationHash}>
+                            <Button pX={20} pY={12} className="bg-[#000000] rounded text-white text-[12px] font-semibold no-underline text-center" href={`${baseUrl}/verify/${token}`}>
                                 Verify email
                             </Button>
                         </Section>
                         <Text className="text-black text-[14px] leading-[24px]">
                             or copy and paste this URL into your browser:{' '}
-                            <Link href={verificationHash} className="text-blue-600 no-underline">
-                                {verificationHash}
+                            <Link href={`${baseUrl}/verify/${token}`} className="text-blue-600 no-underline">
+                                {`${baseUrl}/verify/${token}`}
                             </Link>
                         </Text>
                     </Container>
