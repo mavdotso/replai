@@ -8,7 +8,7 @@ interface VercelInviteUserEmailProps {
 }
 
 export default function VerifyEmail({ email, token }: VercelInviteUserEmailProps) {
-    const previewText = `Verify your email on @replai`;
+    const previewText = `Welcome to @replai! Verify your email to get access to all the features and updates!`;
 
     return (
         <Html>
