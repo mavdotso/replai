@@ -15,7 +15,7 @@ export default function RootLayout({ children }) {
     return (
         <NextAuthProvider>
             <html lang="en">
-                <body className={inter.className}>
+                <body className={`${inter.className} min-h-screen flex flex-col`}>
                     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
                         {children}
                     </ThemeProvider>

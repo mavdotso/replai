@@ -1,6 +1,7 @@
 import { Separator } from '@/components/ui/separator';
 import { SidebarNav } from '@/components/SidebarNav';
 import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 
 export const metadata = {
     title: 'Dashboard',
@@ -37,6 +38,7 @@ export default function DashboardLayout({ children }) {
                     </div>
                 </div>
             </main>
+            <Footer />
         </>
     );
 }

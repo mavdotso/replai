@@ -21,7 +21,7 @@ export default function DefaultLayout({ children }) {
     return (
         <>
             <Header />
-            <main className="grow [text-wrap:balance]">{children}</main>
+            <main className="grow [text-wrap:balance] mb-auto">{children}</main>
             <Footer />
         </>
     );
