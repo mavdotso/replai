@@ -18,7 +18,7 @@ export default function VerifyEmail({ email, token }: VercelInviteUserEmailProps
                 <Body className="bg-white my-auto mx-auto font-sans">
                     <Container className="border border-solid border-[#eaeaea] rounded my-[40px] mx-auto p-[20px] w-[465px]">
                         <Section className="mt-[32px]">
-                            <Img src={`${BASE_URL}/public/logo.svg`} width="40" height="37" alt="replai" className="my-0 mx-auto" />
+                            <Img src={`${BASE_URL}/logo.png`} width="80" height="37" alt="@replai" className="my-0 mx-auto" />
                         </Section>
                         <Heading className="text-black text-[24px] font-normal text-center p-0 my-[30px] mx-0">Verify your email address</Heading>
                         <Text className="text-black text-[14px] leading-[24px]">Hello {email},</Text>

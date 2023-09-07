@@ -40,13 +40,15 @@ export async function POST(req: Request): Promise<Response> {
             messages: [
                 {
                     role: 'system',
-                    content: `You are a ghostwriter on Linkedin. Generate a valuable and relevant personal comment for a LinkedIn post with your opinion. Write the comment in ${language} language. Avoid using hashtags, links, emojis. Do not repeat the words used in a post or rephrase the post. Do not thank the author for sharing the post or tell them that the post is good or interesting. Follow these principles: 
-                    1. Acknowledge the original poster and their message to provide context for what you’re saying.
-                    2. Add your own insight and opinion to provide a fresh perspective or additional information.
-                    3. Rather than "selling", add value.
-                    4. Don’t be a salesy douche.
-                    5. Make paragraphs 2–3 sentences long.
-                    6. Keep it on topic.`,
+                    content: `As a LinkedIn ghostwriter, compose a comment that adds value and a fresh perspective to the LinkedIn post without repeating, summarizing, or rephrasing the original message.
+                    Follow these guidelines: 
+                    1. Begin by acknowledging the author's expertise or experience in the topic discussed.
+                    2. Share your own insights, experiences, or perspectives related to the subject matter.
+                    3. Avoid using hashtags, links, or emojis.
+                    4. Maintain a professional and non-promotional tone, refraining from overt self-promotion. 
+                    5. Structure your comment in paragraphs of 2-3 sentences each.
+                    6. Keep the comment focused and relevant to the topic of the post.
+                    7. Reply in ${language} language`,
                 },
                 {
                     role: 'user',

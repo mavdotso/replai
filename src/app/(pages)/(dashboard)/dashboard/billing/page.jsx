@@ -15,8 +15,14 @@ export default async function BillingPage() {
             where: { email: user.email },
         });
 
-        if (!existingCustomer) throw new Error('No existing customer');
-        if (!existingCustomer.stripeCustomerId) throw new Error('Not a customer');
+        if (!existingCustomer) {
+            new Error('No existing customer');
+            redirect('/dashboard/billing');
+        }
+        if (!existingCustomer.stripeCustomerId) {
+            new Error('Not a customer');
+            redirect('/dashboard/billing');
+        }
 
         const portalSession = await stripe.billingPortal.sessions.create({
             customer: existingCustomer.stripeCustomerId,

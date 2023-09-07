@@ -41,7 +41,7 @@
         "fs": "^0.0.1-security",
         "jose": "^4.14.4",
         "languagedetect": "^2.0.0",
-        "lucide-react": "^0.263.1",
+        "lucide-react": "^0.274.0",
         "next": "13.4.12",
         "next-auth": "^4.22.3",
         "next-themes": "^0.2.1",

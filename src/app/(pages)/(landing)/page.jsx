@@ -4,11 +4,17 @@ export const metadata = {
 };
 
 import Hero from '@/components/(landing)/Hero';
+import Mockup from '@/components/(landing)/Mockup';
+import Icons from '@/components/(landing)/Icons';
+import Pricing from '@/components/(landing)/Pricing';
 
 export default function Home() {
     return (
         <>
             <Hero />
+            <Mockup />
+            <Icons />
+            <Pricing />
         </>
     );
 }
